@@ -2,6 +2,8 @@
 - Realize as configurações desejadas de limitação no arquivo .env
 - Execute para subir o redis: docker-compose up -d
 - Execute a aplicação: go run main.go persistence.go rate_limiter_middleware.go rate_limit.go
+- Execute a requisição sem header pelo arquivo ./api/get.http
+- Execute a requisição com header pelo arquivo ./api/get-header.http
 - Execute para rodar a limitação por IP: curl --location 'http://localhost:8080'
 - Execute para rodar a limitação por API_KEY: curl --location 'http://localhost:8080' --header 'API_KEY:API_KEY_A'
 - Execute a automação de testes em load_test.go

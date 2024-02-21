@@ -1,0 +1,6 @@
+GET http://localhost:8080 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+API_KEY: API_KEY_A
+# API_KEY: API_KEY_B
+# API_KEY: API_KEY_C
