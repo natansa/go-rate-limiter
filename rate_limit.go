@@ -9,7 +9,7 @@ import (
 )
 
 // verifica se o número de requisições por IP ou API_KEY excedeu o limite
-func checkRateLimit(context *gin.Context) (bool, int64) {
+func checkRateLimit(context *gin.Context, persistence IPersistenceStrategy) (bool, int64) {
 	var expire int // tempo de bloqueio/expiracao por IP ou API_KEY
 	var limit int  // limite de requisições por IP ou API_KEY
 	var key string // IP ou API_KEY
@@ -53,14 +53,14 @@ func checkRateLimit(context *gin.Context) (bool, int64) {
 		}
 	}
 
-	requests_count, err := getRequestCount(context, key)
+	requests_count, err := persistence.GetRequestCount(context, key)
 	if err != nil {
 		// retorna erro 500 em caso de erro ao incrementar o contador de requisições por IP ou API_KEY
 		throwError(context, err)
 	}
 
 	if requests_count == 1 {
-		err = setTimeToExpireKey(context, expire, key)
+		err = persistence.SetTimeToExpireKey(context, expire, key)
 		if err != nil {
 			// retorna erro 500 em caso de erro ao definir a expiração do contador de requisições por IP ou API_KEY
 			throwError(context, err)

@@ -8,11 +8,13 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
+type RedisPersistence struct{}
+
 var (
 	redisClient *redis.Client
 )
 
-func initialize() {
+func (r *RedisPersistence) Initialize() {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS_ADDR"),
 		Password: os.Getenv("REDIS_PASSWORD"),
@@ -20,7 +22,7 @@ func initialize() {
 	})
 }
 
-func setTimeToExpireKey(context *gin.Context, expire int, key string) error {
+func (r *RedisPersistence) SetTimeToExpireKey(context *gin.Context, expire int, key string) error {
 	ctx := context.Request.Context()
 	// define a expiração do contador de requisições por IP ou API_KEY no redis
 	expireInternal := time.Second * time.Duration(expire)
@@ -30,7 +32,7 @@ func setTimeToExpireKey(context *gin.Context, expire int, key string) error {
 	return nil
 }
 
-func getRequestCount(context *gin.Context, key string) (int64, error) {
+func (r *RedisPersistence) GetRequestCount(context *gin.Context, key string) (int64, error) {
 	ctx := context.Request.Context()
 	// incrementa o contador de requisições por IP ou API_KEY no redis
 	requests_count, err := redisClient.Incr(ctx, key).Result()

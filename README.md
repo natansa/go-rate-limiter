@@ -1,7 +1,7 @@
 ## Testes do projeto
 - Realize as configurações desejadas de limitação no arquivo .env
 - Execute para subir o redis: docker-compose up -d
-- Execute a aplicação: go run main.go persistence.go rate_limiter_middleware.go rate_limit.go
+- Execute a aplicação: go run main.go ipersistence_strategy.go redis_persistence.go postgres_persistence.go rate_limiter_middleware.go rate_limit.go
 - Execute a requisição sem header pelo arquivo ./api/get.http
 - Execute a requisição com header pelo arquivo ./api/get-header.http
 - Execute para rodar a limitação por IP: curl --location 'http://localhost:8080'
